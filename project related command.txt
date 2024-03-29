@@ -1,0 +1,6 @@
+ 10.0.2.15/24
+ 
+ nano /etc/mysql/mysql.conf.d/mysql.cnf
+ 
+ //for giving permission for any changes in mysql.cnf file
+ sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
