@@ -1,6 +1,35 @@
- 10.0.2.15/24
- 
+ 10.0.2.15/24//wrong ip
+ ssh saurav__s7@localhost
+ ssh saurav__s7@192.168.56.101 start server as normal start
+ one more ip addr 192.168.56.101
+ password Lola@121
  nano /etc/mysql/mysql.conf.d/mysql.cnf
  
  //for giving permission for any changes in mysql.cnf file
  sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+ CREATE DATABASE authService;
+
+
+ sudo mysql -u root -p
+ password:Lola@121
+
+ service mysql status
+#ip address of virtual box:-10.0.2.15/24
+
+
+ #for finding local computer ip address
+ ipconfig
+  192.168.43.250--wifi
+   IPv4 Address. . . . . . . . . . . : 192.168.56.1--edthernet local computer
+
+
+  CREATE USER 'root'@'192.168.43.250' IDENTIFIED BY 'Lola@121';
+  GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.43.250' WITH GRANT OPTION;
+  service mysql restart
+
+
+
+  You can use the netstat command with grep to find the port the SSH server is listening on:
+
+  sudo netstat -plntu | grep ssh

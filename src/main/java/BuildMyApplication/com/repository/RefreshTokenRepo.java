@@ -15,7 +15,7 @@ public interface RefreshTokenRepo extends CrudRepository<RefreshedToken,Integer>
     //SELECT * FROM TOKEN WHERE TOKEN=TOKEN1
     Optional<RefreshedToken> findByToken(String Token);
 
-    UserInfo findUsernameAndPassword(String username,String password);
+//    UserInfo findUsernameAndPassword(String username,String password);
 
 
 

@@ -1,6 +1,7 @@
 package BuildMyApplication.com.config;
 
 
+import BuildMyApplication.com.jwtAuthFilters.JwtAuthFilter;
 import BuildMyApplication.com.repository.UserRepos;
 import BuildMyApplication.com.services.UserDetailsServiceImpl;
 import lombok.Data;
@@ -49,16 +50,17 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(CorsConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/v1/login","/auth/v1/refreshToken","/auth/v1/aignup").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/v1/login","/auth/v1/refreshToken","/auth/v1/signup").permitAll().anyRequest().authenticated())
                 .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
-                .addFilter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .authenticationProvider(authenticationProvider());
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider())
+                .build();
     }
 
 
     @Bean
-    private AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsServiceimpl);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -66,7 +68,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    private AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
