@@ -1,11 +1,13 @@
 package BuildMyApplication.com.services;
 
 import BuildMyApplication.com.entities.UserInfo;
+import BuildMyApplication.com.eventProducer.UserInfoProducer;
 import BuildMyApplication.com.models.UserInfoDto;
 import BuildMyApplication.com.repository.UserRepos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 
 @Data
@@ -30,6 +33,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private final UserInfoProducer userInfoProducer;
+
+    private static final Logger log = (Logger) LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
 
     @Override
@@ -69,6 +77,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         .username(userInfoDto.getUsername())
                         .build()
         );
+        //here we are producing a message event in kafka topic
+        //we need to serialize the data for and change into bytes
+        //and at consumer side we need to de serialize
+        userInfoProducer.sendEventToKafka(userInfoDto);
 
         return true;
 

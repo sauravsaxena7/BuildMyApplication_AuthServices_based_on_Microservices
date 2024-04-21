@@ -1,6 +1,7 @@
 package BuildMyApplication.com.config;
 
 
+import BuildMyApplication.com.eventProducer.UserInfoProducer;
 import BuildMyApplication.com.jwtAuthFilters.JwtAuthFilter;
 import BuildMyApplication.com.repository.UserRepos;
 import BuildMyApplication.com.services.UserDetailsServiceImpl;
@@ -37,11 +38,14 @@ public class SecurityConfig {
     @Autowired
     private final UserRepos userRepos;
 
+    @Autowired
+    private final UserInfoProducer userInfoProducer;
+
 
     @Autowired
     @Bean
     public UserDetailsService userDetailsService(){
-        return new UserDetailsServiceImpl(userRepos,passwordEncoder);
+        return new UserDetailsServiceImpl(userRepos,passwordEncoder,userInfoProducer);
     }
 
 
