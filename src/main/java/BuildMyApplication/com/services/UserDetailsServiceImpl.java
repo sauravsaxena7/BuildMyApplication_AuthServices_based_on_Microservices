@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private final UserInfoProducer userInfoProducer;
 
-    private static final Logger log = (Logger) LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    //private static final Logger log = (Logger) LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
 
     @Override

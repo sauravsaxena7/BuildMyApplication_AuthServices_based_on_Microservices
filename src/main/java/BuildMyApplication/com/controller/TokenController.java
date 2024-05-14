@@ -33,7 +33,8 @@ public class TokenController {
     @PostMapping("auth/v1/login")
     public ResponseEntity AuthenticatedAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
         try {
-            Authentication authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(),authRequestDTO.getPassword()));
+            Authentication authentication =authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(),authRequestDTO.getPassword()));
 
             if (authentication.isAuthenticated()) {
                 RefreshedToken refreshedToken = refreshTokenServices.createRefreshedToken(authRequestDTO.getUsername());

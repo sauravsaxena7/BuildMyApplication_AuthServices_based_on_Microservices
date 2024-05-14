@@ -16,7 +16,7 @@ public class UserInfoProducer {
     private final KafkaTemplate<String, UserInfoDto> kafkaTemplate;
 
 
-    @Value("${spring.kafka.topic.name")
+    @Value("${spring.kafka.topic-json.name}")
     private String TOPIC_NAME;
     @Autowired
     UserInfoProducer(KafkaTemplate<String,UserInfoDto> kafkaTemplate){
@@ -29,7 +29,13 @@ public class UserInfoProducer {
         Message<UserInfoDto> message = MessageBuilder.withPayload(userInfoDto)
                 .setHeader(KafkaHeaders.TOPIC,TOPIC_NAME).build();
 
-        kafkaTemplate.send(message);
+        try {
+            System.out.println("error in producer:sending ");
+            kafkaTemplate.send(message);
+        }catch (Exception ex){
+            System.out.println("error in producer: " +ex.getMessage());
+        }
+
     }
 
 
